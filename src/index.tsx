@@ -7,11 +7,15 @@ const App = () => {
   const [code, setCode] = useState('')
   const ref = useRef<any>()
 
-  const onClick = () => {
+  const onClick = async () => {
     if(!ref.current){
       return;
     }
-    console.log(ref.current)
+    const result = await ref.current.transform(input,{
+      loader: 'jsx',
+      target: 'es2015'
+    })
+    setCode(result.code)
   }
 
   const startService = async () => {
@@ -19,7 +23,6 @@ const App = () => {
       worker: true,
       wasmURL: '/esbuild.wasm'
     })
-    
   }
 
   useEffect(() => {
